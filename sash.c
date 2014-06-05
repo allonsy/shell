@@ -102,7 +102,7 @@ int executeCommand(char *command)
    }
    else if(strcmp(arguments[0],"pwd")==0)//&&numargs!=1)
    {
-      if(newIO==1||numargs!=1) {freeargs(arguments,numargs); myPrint(errormsg);return -1;}
+      if(newIO==1||numargs!=1) {freeargs(arguments,numargs); myPrint("pwd: too many arguments");return -1;}
       char cwd[1024]; 
      getcwd(cwd,sizeof(cwd));
      myPrint(cwd);
@@ -116,7 +116,7 @@ int executeCommand(char *command)
         if(newIO==1) {freeargs(arguments,numargs); myPrint(errormsg);return -1;}
 	   if(numargs>2)
 	   {
-		   myPrint(errormsg);
+		   myPrint("cd: too many arguments\n");
 		   freeargs(arguments, numargs);
 		   return 1;
 	   }
@@ -125,7 +125,7 @@ int executeCommand(char *command)
 		   int ret;
 	   	   ret=chdir(getenv("HOME"));
 		   if(ret!=0)
-			   myPrint(errormsg);
+			   perror("cd");
 		   freeargs(arguments, numargs);
 		   return ret;
 	   }
@@ -134,7 +134,7 @@ int executeCommand(char *command)
 		   int ret=chdir(arguments[1]);
 			if(ret!=0)
 			{
-				myPrint(errormsg);
+				perror(arguments[1]);
 			}
 			freeargs(arguments, numargs);
 			return ret;
@@ -166,32 +166,10 @@ int executeCommand(char *command)
 
            }
  
-
-           /*if(newIO%2==1)  { 
-             fileI=4;
-             fileI++;
-
-            * int fileI = open(*newIn,O_RDONLY);
-             if(fileI<0) {myPrint(errormsg); return -1;}
- 
-             char *newinbuff="";
-             int iu=0;
-             char *thing=fgets(newinbuff,513,fileI);
-             printf("Here is %s\n",thing);
-             myPrint(newinbuff);
-             while (!thing) 
-              {    myPrint("new input2\n");
-                   arguments[numargs+iu]=strdup(newinbuff);
-               }
-              fclose(fileI);
-	      free(newinbuff);
-               if(dup2(STDOUT_FILENO,1)<1) {myPrint(errormsg); return -1;} */
-           //}
-
-
 	   execvp(arguments[0], arguments);
-	   myPrint(errormsg);//if execve returns, then there was an error
-	   exit(0);
+	   perror(arguments[0]); //if execve returns, then there was an error
+	   freeargs(arguments, numargs);
+	   exit(1);
    }
    
    int res=0;

@@ -8,10 +8,13 @@ You can put a list of commands and run them in a script by passing the
 commands in a file as an argument. For example: 'sash mycommandfile'
 
 The current feature are normal shell operations, various commands like cd,
-pwd, etc... and output redirection but not appending abilities yet. Many
+pwd, etc... and output redirection but not appending abilities yet. There is
+support for multiple commands separated by semi-colons. Many
 features will be coming soon, check back and pull the latest sources
-frequently for the latest code. Also, all errors, simply say "An error has
-occurred" more detailed error messages coming soon.
+frequently for the latest code. Also, most parsing errors, simply say "An error has
+occurred" more detailed error messages coming soon. An error that says: "comm:
+no such file of directory" or something of the like means that such a command
+doesn't exist in the given PATH.
 
 Questions, Comments, and Suggestions can be e-mailed to linuxbash8@gmail.com
 
